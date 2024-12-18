@@ -1,4 +1,54 @@
+# Purpose of this fork
 
+Inspired by the origin of this fork, where the author used LLM to simulate human behaviour in virtual NPC's, we want to build upon this to create a game that is alive.
+
+# Instructions to run with local server
+
+## Create virtual environment
+
+```
+conda create --name littleearth python=3.10 -y
+conda activate littleearth
+```
+## install requirements
+
+```
+conda install -c conda-forge gensim
+pip install -r requirements.txt
+```
+## Start frontend server
+```
+cd environment/frontend_server
+python manage.py runserver
+```
+//Open local server http://127.0.0.1:8000/
+
+## Start local llm api server
+// install LM Studio
+// download `QuantFactory/Meta-Llama-3-8B-Instruct-GGUF` model (Feel free to use other chat models if willing, but make sure to update `reverie/backend_server/utils.py` with the correct model name)
+// download `nomic-ai/nomic-embed-text-v1.5-GGUF` model (Feel free to use other text embedding models if willing, but make sure to update `reverie/backend_server/utils.py` with the correct model name)
+// Start the LM studio local server with the above two downloaded models
+
+## Start backend server
+```
+cd reverie/backend_server
+python reverie.py
+```
+//Respond to the terminal promts. The following is an example of what you could enter.
+Enter the name of the forked simulation: `base_the_ville_isabella_maria_klaus`
+Enter the name of the new simulation: `test-simulation-12-17-2100` // Feel free to use a different name, make sure to use different one everytime you start over.
+Note: The agents in this simulation package are computational
+constructs powered by generative agents architecture and LLM. We
+clarify that these agents lack human-like agency, consciousness,
+and independent decision-making.
+---
+// at this point go to http://localhost:8000/simulator_home to see the village
+Enter option: `run 3` // Feel free to increase or decrease the number of steps you want to simulate.
+
+
+
+
+________________________________________________________________________________
 
 # Generative Agents: Interactive Simulacra of Human Behavior 
 

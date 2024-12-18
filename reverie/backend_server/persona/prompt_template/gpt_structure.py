@@ -11,7 +11,8 @@ import time
 
 from utils import *
 
-openai.api_key = openai_api_key
+openai.api_key = lmstudio_api_key
+openai.api_base = lmstudio_api_base
 
 def temp_sleep(seconds=0.1):
   time.sleep(seconds)
@@ -20,7 +21,7 @@ def ChatGPT_single_request(prompt):
   temp_sleep()
 
   completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
+    model=lmstudio_model_engine,
     messages=[{"role": "user", "content": prompt}]
   )
   return completion["choices"][0]["message"]["content"]
@@ -46,7 +47,7 @@ def GPT4_request(prompt):
 
   try: 
     completion = openai.ChatCompletion.create(
-    model="gpt-4", 
+    model=lmstudio_model_engine, 
     messages=[{"role": "user", "content": prompt}]
     )
     return completion["choices"][0]["message"]["content"]
@@ -71,7 +72,7 @@ def ChatGPT_request(prompt):
   # temp_sleep()
   try: 
     completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
+    model=lmstudio_model_engine, 
     messages=[{"role": "user", "content": prompt}]
     )
     return completion["choices"][0]["message"]["content"]
@@ -209,7 +210,7 @@ def GPT_request(prompt, gpt_parameter):
   temp_sleep()
   try: 
     response = openai.Completion.create(
-                model=gpt_parameter["engine"],
+                model=lmstudio_model_engine, #gpt_parameter["engine"],
                 prompt=prompt,
                 temperature=gpt_parameter["temperature"],
                 max_tokens=gpt_parameter["max_tokens"],
@@ -273,12 +274,12 @@ def safe_generate_response(prompt,
   return fail_safe_response
 
 
-def get_embedding(text, model="text-embedding-ada-002"):
+def get_embedding(text):
   text = text.replace("\n", " ")
   if not text: 
     text = "this is blank"
   return openai.Embedding.create(
-          input=[text], model=model)['data'][0]['embedding']
+          input=[text], model=lmstudio_text_embedding_model_engine)['data'][0]['embedding']
 
 
 if __name__ == '__main__':

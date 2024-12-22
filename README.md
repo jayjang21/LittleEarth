@@ -45,7 +45,57 @@ and independent decision-making.
 // at this point go to http://localhost:8000/simulator_home to see the village
 Enter option: `run 3` // Feel free to increase or decrease the number of steps you want to simulate.
 
+# Setting up Debugger with IDE
 
+## IDE:VSCode
+
+//Install debugpy
+```
+conda install -c conda-forge debugpy
+```
+// (Already done for you) Create .vscode file in the project with the debug configurations
+```
+mkdir -p .vscode && cat > .vscode/launch.json << 'EOL'
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Debugpy",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678 // This is the port that the debugger is listening on. Make sure to match this with the port that you used to start the server. Details in README.md
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "${workspaceFolder}"
+                }
+            ]
+        }
+    ]
+}
+EOL
+```
+
+// Start the server that waits for the IDE debugger to be attached (Make sure that the port number (5678) matches the port number in the .vscode/launch.json file)
+For the backend server:
+```
+python -m debugpy --listen 0.0.0.0:5678 --wait-for-client reverie/backend_server/reverie.py
+```
+For the frontend server:
+```
+python -m debugpy --listen 0.0.0.0:5678 --wait-for-client environment/frontend_server/manage.py runserver
+```
+
+// Start debugger in the IDE side as well. (You need to do this after you start the server in the previous step. Otherwise it won't even start the debugger)
+In VSCode:
+   - Press Cmd+Shift+D (on macOS) to open the Debug view (Or you can manually find the `Run and Debug` tab)
+   - Select "Python: Debugpy" from the dropdown at the top. (The name should match the name in the .vscode/launch.json file)
+   - Click the green play button or press F5 to attach the debugger
+
+// The debugger in IDE will attach to the terminal server execution via port 5678, and the server will start running. Now you can set breakpoints and debug.
 
 
 ________________________________________________________________________________
